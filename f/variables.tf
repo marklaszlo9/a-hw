@@ -17,3 +17,8 @@ variable "gke_num_nodes" {
   default     = 1
   description = "number of gke nodes"
 }
+
+variable "project_id" {
+  default     = "aliz-hw-laszlomark"
+  description = "Project used during this project"
+}

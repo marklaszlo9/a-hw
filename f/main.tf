@@ -7,7 +7,6 @@ resource "google_compute_network" "vpc" {
 # Subnet
 resource "google_compute_subnetwork" "subnet" {
   name          = "${var.project_id}-subnet"
-  region        = var.region
   network       = google_compute_network.vpc.name
   ip_cidr_range = "10.10.0.0/24"
 
@@ -15,14 +14,12 @@ resource "google_compute_subnetwork" "subnet" {
 
 # Create a GCS Bucket
 resource "google_storage_bucket" "my_bucket" {
-  name     = var.bucket_name
-  location = var.region
+  name = var.bucket_name
 }
 
 # GKE cluster
 resource "google_container_cluster" "primary" {
-  name     = "${var.project_id}-gke"
-  location = var.region
+  name = "${var.project_id}-gke"
 
   remove_default_node_pool = true
   initial_node_count       = 1
@@ -43,7 +40,6 @@ resource "google_container_cluster" "primary" {
 # Separately Managed Node Pool
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${google_container_cluster.primary.name}-node-pool"
-  location   = var.region
   cluster    = google_container_cluster.primary.name
   node_count = var.gke_num_nodes
 
