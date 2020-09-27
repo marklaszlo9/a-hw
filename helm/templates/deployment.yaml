@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: {{ template "fullname" . }}
-labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "fullname" . }}
+      app: {{ .Chart.Name }}
   strategy:
     type: {{ .Values.strategy }}
   template:
     metadata:
       labels:
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+        app: {{ .Chart.Name }}
     spec:
       containers:
-      - name: {{ template "fullname" . }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+      - name: {{ .Chart.Name }}
+        image: lmark90/aliz-hw-laszlomark:latest
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - containerPort: 8081

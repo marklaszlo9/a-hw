@@ -23,7 +23,7 @@ variable "project_id" {
   description = "Project used during this project"
 }
 
-variables "zone" {
+variable "zone" {
   default     = "us-central1-b"
   description = "Deployment zone for GKE"
 }

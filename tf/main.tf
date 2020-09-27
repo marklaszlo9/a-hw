@@ -19,13 +19,12 @@ resource "google_storage_bucket" "my_bucket" {
 
 # GKE cluster
 resource "google_container_cluster" "primary" {
-  name = "${var.project_id}-gke"
+  name                     = "${var.project_id}-gke"
   remove_default_node_pool = true
   initial_node_count       = 1
-  zone =  var.zone
-  network    = google_compute_network.vpc.name
-  subnetwork = google_compute_subnetwork.subnet.name
-  remove_default_node_pool = True
+  location                 = var.zone
+  network                  = google_compute_network.vpc.name
+  subnetwork               = google_compute_subnetwork.subnet.name
 
   master_auth {
     username = var.gke_username
@@ -53,7 +52,7 @@ resource "google_container_node_pool" "primary_nodes" {
       "https://www.googleapis.com/auth/devstorage.read_write",
       "https://www.googleapis.com/auth/servicecontrol",
       "https://www.googleapis.com/auth/service.management.readonly",
-      "https://www.googleapis.com/auth/trace.append"
+      "https://www.googleapis.com/auth/trace.append",
       "https://www.googleapis.com/auth/cloud-platform",
       "https://www.googleapis.com/auth/compute.readonly",
       "https://www.googleapis.com/auth/datastore"
@@ -62,7 +61,7 @@ resource "google_container_node_pool" "primary_nodes" {
     labels = {
       env = var.project_id
     }
-    zone = var.zone
+    location     = var.zone
     preemptible  = true
     machine_type = "n1-standard-1"
     tags         = ["gke-node", "${var.project_id}-gke"]
