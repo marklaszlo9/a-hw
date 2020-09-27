@@ -4,6 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: nexus3-data
+    app: nexus3-gcs
   name: nexus3-data
 spec:
   accessModes:

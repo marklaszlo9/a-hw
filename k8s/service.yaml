@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nexus3-gcs
+  name: nexus3-gcs3
+spec:
+  ports:
+  - name: "8081"
+    port: 80
+    targetPort: 8081
+  selector:
+    app: nexus3-gcs
+  type: LoadBalancer
+status:
+  loadBalancer: {}

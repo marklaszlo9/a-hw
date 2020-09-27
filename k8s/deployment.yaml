@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nexus3-gcs
+  name: nexus3-gcs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexus3-gcs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nexus3-gcs
+    spec:
+      containers:
+      - image: lmark90/aliz-hw-laszlomark:latest
+        name: nexus3-gcs
+        ports:
+        - containerPort: 8081
+        resources: {}
+      initContainers:
+      - name: volume-mount-hack
+        image: busybox
+        command: ["sh", "-c", "chown -R 200:200 /nexus-data"]
+        volumeMounts:
+        - mountPath: /nexus-data
+          name: nexus3-data
+      serviceAccountName: ""
+      volumes:
+      - name: nexus3-data
+        persistentVolumeClaim:
+          claimName: nexus3-data
+status: {}
